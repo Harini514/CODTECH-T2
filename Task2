@@ -1,0 +1,80 @@
+class StudentGradeManager:
+
+    def __init__(self):
+        self.grades = {}
+
+    def add_grade(self):
+        subject = input("Enter the subject/assignment: ").strip()
+        try:
+            grade = float(input(f"Enter the grade for {subject}: "))
+            if 0 <= grade <= 100:
+                self.grades[subject] = grade
+                print(f"Grade for {subject} added/updated successfully.")
+            else:
+                print("Grade must be between 0 and 100.")
+        except ValueError:
+            print("Invalid input. Please enter a numeric grade.")
+
+    def calculate_average(self):
+        if not self.grades:
+            print("No grades available to calculate the average.")
+            return None
+        return sum(self.grades.values()) / len(self.grades)
+
+    def display_grades(self):
+        if not self.grades:
+            print("No grades available to display.")
+            return
+        print("\nGrades:")
+        for subject, grade in self.grades.items():
+            print(f"{subject}: {grade}")
+        average = self.calculate_average()
+        if average is not None:
+            print(f"\nAverage Grade: {average:.2f}")
+            print(f"Letter Grade: {self.get_letter_grade(average)}")
+            print(f"GPA: {self.get_gpa(average):.2f}")
+
+    def get_letter_grade(self, average):
+        if average >= 90:
+            return "A"
+        elif average >= 80:
+            return "B"
+        elif average >= 70:
+            return "C"
+        elif average >= 60:
+            return "D"
+        else:
+            return "F"
+
+    def get_gpa(self, average):
+        if average >= 90:
+            return 4.0
+        elif average >= 80:
+            return 3.0
+        elif average >= 70:
+            return 2.0
+        elif average >= 60:
+            return 1.0
+        else:
+            return 0.0
+
+    def main_menu(self):
+        while True:
+            print("\nStudent Grade Manager")
+            print("1. Add/Update a Grade")
+            print("2. Display Grades and Statistics")
+            print("3. Exit")
+            choice = input("Choose an option: ").strip()
+            if choice == "1":
+                self.add_grade()
+            elif choice == "2":
+                self.display_grades()
+            elif choice == "3":
+                print("Exiting program. Goodbye!")
+                break
+            else:
+                print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    manager = StudentGradeManager()
+    manager.main_menu()
